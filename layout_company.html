@@ -58,7 +58,7 @@
     <ul>
 
     {% for project in get_projects() %}
-        <li><a href="{{ project }}/index.html">{{ project|title }}</a></li>
+        <li><a href="{{ project }}/index.html">{{ project|replace("_", " ")|title }}</a></li>
     {% endfor %}
 
     </ul>
