@@ -1,5 +1,5 @@
 dopresskit-static
----
+=================
 
 dopresskit-static is a static version of the great Rami Ismail's presskit().
 
