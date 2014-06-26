@@ -135,12 +135,12 @@ blabla_ga()
 
 # HELPERS
 def get_images(extensions):
-    files, imagesPath  = [], os.path.join(now_project, "images")
+    files, images_path  = [], os.path.join(now_project, "images")
     try:
-        os.mkdir(imagesPath)
+        os.mkdir(images_path)
     except OSError: #images folder already exists
         pass
-    for f in os.listdir(imagesPath):
+    for f in os.listdir(images_path):
         for ext in extensions:
             if f.endswith(ext):
                 files.append(f)
