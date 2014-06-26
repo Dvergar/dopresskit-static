@@ -7,6 +7,13 @@ If you don't wan't to rely on PHP you can use it with the same xml files & direc
 
 You can even **host it on dropbox** : [demo](https://dl.dropboxusercontent.com/u/8211966/presskit-static/index.html)
 
+# Goal
+* Not relying on PHP
+* More comprehensible source (thanks to python being python & the simple jinja syntax)
+* Hostable on dropbox or anywhere with a simple drag & drop
+* Compatible with the original presskit() xml files & directory structure
+* Adding a few simple features
+
 # Getting started
 Go read the original [https://github.com/ramiismail/dopresskit](https://github.com/ramiismail/dopresskit) to see what presskit() is about.
 
