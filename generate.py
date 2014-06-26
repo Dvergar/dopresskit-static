@@ -138,7 +138,7 @@ def get_images(extensions):
     files, images_path  = [], os.path.join(now_project, "images")
     try:
         os.mkdir(images_path)
-    except OSError: #images folder already exists
+    except OSError:  # Images folder already exists
         pass
     for f in os.listdir(images_path):
         for ext in extensions:
