@@ -1,0 +1,66 @@
+{% extends "layout_common.html" %}
+
+{% block css_path %}"style.css"{% endblock %}
+{% block company_path %}""{% endblock %}
+{% block projects_features %}<li><a href="#projects">Projects</a></li>{% endblock %}
+{% block images_screenshots %}<li><a href="#images">Images</a></li>{% endblock %}
+
+{% block foundingdate_releasedate %}
+	<p>
+		<strong>Founding date:</strong><br/>
+		{{ company.founding_date }}
+	</p>
+{% endblock %}
+
+{% block press_regularprice %}
+	<p>
+		<strong>Press / Business Contact:</strong><br/>
+		<a href="mailto:{{ company.press_contact }}">{{ company.press_contact }}</a>
+	</p>        
+	<p>
+		<strong>Social:</strong><br/>
+		{% for social in company.socials.social %}
+			<a href=//{{ social.link }}>{{ social.name }}</a><br/>
+		{% endfor %}
+	</p>
+	<p>
+	<strong>Releases:</strong><br />
+	{% for project in get_projects() %}
+		<a href="{{ project }}">{{ project|title }}</a><br />
+	{% endfor %}
+
+	</p>
+	<p>
+	{% if "line" in company.address %}
+		<strong>Address:</strong><br/>
+		{% for address in company.address.line %}
+			{{ address }}<br/>
+		{% endfor %}
+	{% endif %}
+	</p> 
+	<p>
+		<strong>Phone:</strong><br/>
+		{{ company.phone }}
+	</p>
+{% endblock %}
+
+{% block historieprojects_historyfeatures %}
+	<h2 id="history">History</h2>
+
+	{% for history in company.histories.history %}
+		<strong>{{ history.header }}</strong>
+		<p>{{ history.text }}</p>
+	{% endfor %}
+
+	<h2 id="projects">Projects</h2>
+	<ul>
+
+	{% for project in get_projects() %}
+		<li><a href="{{ project }}">{{ project|title }}</a></li>
+	{% endfor %}
+
+	</ul>
+{% endblock %}
+
+{% block credit_name %}Team & Repeating Collaborators{% endblock %}
+
