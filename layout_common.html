@@ -51,7 +51,11 @@
 
                             <p>
                                 <strong>Website:</strong><br/>
-                                <a href="//{{ company.website }}">{{ company.website }}</a>
+                                {% set url = company.website|replace("http://", "") %}
+                                {% if url|truncate(4, true, "") == "www." %}
+                                    {% set url = url|replace("www.", "", 1) %}
+                                {% endif %}
+                                <a href="//{{ company.website }}">{{ url }}</a>
                             </p>
 
                             {% block press_regularprice %}{% endblock %}
