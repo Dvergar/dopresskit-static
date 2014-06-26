@@ -7,12 +7,11 @@ If you don't wan't to rely on PHP you can use it with the same xml files & direc
 
 You can even **host it on dropbox** : [demo](https://dl.dropboxusercontent.com/u/8211966/presskit-static/index.html)
 
-# Goal
+# Features
 * Not relying on PHP
 * More comprehensible source (thanks to python being python & the simple jinja syntax)
 * Hostable on dropbox or anywhere with a simple drag & drop
 * Compatible with the original presskit() xml files & directory structure
-* Adding a few simple features
 
 # Getting started
 Go read the original [https://github.com/ramiismail/dopresskit](https://github.com/ramiismail/dopresskit) to see what presskit() is about.
@@ -37,4 +36,4 @@ If you want to add a project, copy the `_template` folder and rename it, run `py
 *Note : A project folder will be ignored if its name is starting with an \_uppercase_, if containing any space and if not in lowercase. *Super Crate Box* would have a folder named `super_crate_box` to be valid.*
 
 ## Google Analytics
-To add google analytics support simply add your *Tracker ID* as an argument like this `python generate.py AB-1234567-89`
+To add google analytics support simply add your *Tracker ID* as an argument like this `python generate.py UA-1234567-89`
