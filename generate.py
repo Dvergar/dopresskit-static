@@ -109,9 +109,11 @@ def xml2obj(src):
 def blabla_ga():
     if ga is None:
         print "Google analytics : Disabled"
-        print "Use 'python generate.py <Tracking ID> to active google analytics"
+        print "Use 'python generate.py <Tracking ID> to activate google" + \
+              "analytics"
     else:
         print "Google analytics : Enabled (ID: %s)" % (ga)
+
 
 def blabla_projects():
     projects = get_projects()
@@ -140,6 +142,7 @@ def get_images(extensions):
                 files.append(f)
     return files
 
+
 def get_projects():
     projects = []
     for content in os.listdir('.'):
@@ -157,11 +160,13 @@ def get_projects():
                 projects.append(content)
     return projects
 
+
 def file_exists(filepath):
     return os.path.isfile(os.path.join(now_project, filepath))
 
 
 env = Environment(loader=FileSystemLoader(""))
+
 
 def do_compile(project_name, company_datas=None):
     global now_project
