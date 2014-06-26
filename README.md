@@ -25,7 +25,7 @@ You should be able to compile a project as is with the default `data.xml`.
 * Open `index.html` and it's done!
 * Edit the various `data.xml` files to your needs.
 
-If you want to add a project, copy the `_template` folder and rename it, run `python generate.py` again and a project called `template` should show up in the *Projects* section of the page.
+If you want to add a project, copy the `_template` folder and rename it, run `python generate.py` again and a project should show up in the *Projects* section of the page.
 
 *Note : A project folder will be ignored if its name is starting with an \_uppercase_, if containing any space and if not in lowercase. *Super Crate Box* would have a folder named `super_crate_box` to be valid.*
 
