@@ -109,7 +109,7 @@ def xml2obj(src):
 def blabla_ga():
     if ga is None:
         print "Google analytics : Disabled"
-        print "Use 'python main.py <Tracking ID> to active google analytics"
+        print "Use 'python generate.py <Tracking ID> to active google analytics"
     else:
         print "Google analytics : Enabled (ID: %s)" % (ga)
 

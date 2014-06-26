@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		
 		<title>{{ company.title }}</title>
-		<link href="http://cdnjs.cloudflare.com/ajax/libs/uikit/1.2.0/css/uikit.gradient.min.css" rel="stylesheet" type="text/css">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/uikit/1.2.0/css/uikit.gradient.min.css" rel="stylesheet" type="text/css">
 		<link href={% block css_path %}{% endblock %} rel="stylesheet" type="text/css">
 	</head>
 
@@ -13,7 +13,7 @@
 		<div class="uk-container uk-container-center">
 			<div class="uk-grid">
 				<div id="navigation" class="uk-width-medium-1-4">
-					<h1 class="nav-header">{{ company.title }}</h1>
+					<h1 class="nav-header">{% block title %}{% endblock %}</h1>
 					<a class="nav-header" href={{ company.website }}>{{ company.website }}</a>
 
 					<ul class="uk-nav uk-nav-side">
@@ -79,14 +79,14 @@
 							{% if "youtube" in trailer %}
 								<a href="http://www.youtube.com/watch?v={{ trailer.youtube }}">YouTube</a>
 								<div class="uk-responsive-width iframe-container">
-									<iframe src="http://www.youtube.com/embed/{{ trailer.youtube }}" frameborder="0" allowfullscreen></iframe>
+									<iframe src="//www.youtube.com/embed/{{ trailer.youtube }}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 								</div>
 							{% endif %}
 
 							{% if "vimeo" in trailer %}
 								<a href="http://www.vimeo.com/{{ trailer.vimeo }}">Vimeo</a>
 								<div class="uk-responsive-width iframe-container">
-									<iframe src="http://player.vimeo.com/video/{{ trailer.vimeo }}" frameborder="0" allowfullscreen></iframe>
+									<iframe src="//player.vimeo.com/video/{{ trailer.vimeo }}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 								</div>
 							{% endif %}
 
@@ -120,7 +120,7 @@
 
 
 					<div class="uk-grid images">
-					{% set images = get_images(['png']) %}
+					{% set images = get_images(['png', 'jpg', 'gif']) %}
 					{% if images|length > 0 %}
 						{% for image in images if not image == 'header.png' %}
 							<div class="uk-width-medium-1-2"><a href="images/{{ image }}"><img src="images/{{ image }}" alt="{{ image }}" /></a></div>
@@ -240,9 +240,9 @@
 			</div>
 		</div>
 
-		<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-		<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.0.4/jquery.imagesloaded.js"></script>		
-		<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/masonry/3.1.2/masonry.pkgd.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.0.4/jquery.imagesloaded.js"></script>		
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/masonry/3.1.2/masonry.pkgd.min.js"></script>
 		<script type="text/javascript">
 			$( document ).ready(function() {
 				var container = $('.images');
