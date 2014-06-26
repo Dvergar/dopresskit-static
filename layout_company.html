@@ -7,6 +7,14 @@
 {% block projects_features %}<li><a href="#projects">Projects</a></li>{% endblock %}
 {% block images_screenshots %}<li><a href="#images">Images</a></li>{% endblock %}
 
+{% block header %}
+    {% set url = company.website|replace("http://", "") %}
+    {% if url|truncate(4, true, "") == "www." %}
+        {% set url = url|replace("www.", "", 1) %}
+    {% endif %}
+    <a class="nav-header" href={{ company.website }}>{{ url }}</a>
+{% endblock %}
+
 {% block foundingdate_releasedate %}
     <p>
         <strong>Founding date:</strong><br/>

@@ -14,7 +14,7 @@
             <div class="uk-grid">
                 <div id="navigation" class="uk-width-medium-1-4">
                     <h1 class="nav-header">{% block title %}{% endblock %}</h1>
-                    <a class="nav-header" href={{ company.website }}>{{ company.website }}</a>
+                    {% block header %}{% endblock %}
 
                     <ul class="uk-nav uk-nav-side">
                         <li><a href="#factsheet">Factsheet</a></li>
