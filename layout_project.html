@@ -3,6 +3,7 @@
 {% block title %}{{ project.title }}{% endblock %}
 {% block css_path %}"../style.css"{% endblock %}
 {% block company_path %}"../index.html"{% endblock %}
+{% block credit_path %}"../credits.html"{% endblock %}
 {% block projects_features %}<li><a href="#features">Features</a></li>{% endblock %}
 {% block images_screenshots %}<li><a href="#images">Images</a></li>{% endblock %}
 {% block _navpreview %}<li><a href="#preview">Request Press Copy</a></li>{% endblock %}
@@ -16,7 +17,7 @@
 	<p>
 		<strong>Platforms:</strong><br/>
 		{% for platform in project.platforms.platform %}
-			<a href=//{{ platform.link }}>{{ platform.name }}</a><br/>
+			<a href="//{{ platform.link }}">{{ platform.name }}</a><br/>
 		{% endfor %}
 	</p>
 

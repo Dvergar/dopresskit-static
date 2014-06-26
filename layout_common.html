@@ -51,7 +51,7 @@
 
 							<p>
 								<strong>Website:</strong><br/>
-								<a href={{ company.website }}>{{ company.website }}</a>
+								<a href="//{{ company.website }}">{{ company.website }}</a>
 							</p>
 
 							{% block press_regularprice %}{% endblock %}
@@ -192,7 +192,7 @@
 						{% for additional in company.additionals.additional %}
 							<p>
 								<strong>{{ additional.title }}</strong><br/>
-								{{ additional.description }} <a href={{ additional.link }} alt={{ additional.link }}>{{ additional.link }}</a>.
+								{{ additional.description }} <a href="//{{ additional.link }}" alt={{ additional.link }}>{{ additional.link }}</a>.
 							</p>
 						{% endfor %}
 
@@ -207,7 +207,7 @@
 								<p>
 								<strong>{{ credit.person }} </strong><br/>
 								{% if "website" in credit and credit.website|length != 0 %}
-									<a href=//{{ credit.website }}>{{ credit.role }}</a>
+									<a href="//{{ credit.website }}">{{ credit.role }}</a>
 								{% endif %}
 								</p>
 							{% endfor %}
@@ -225,7 +225,7 @@
 								{% endif %}
 
 								{% if not "mail" in contact and contact.link|length > 0 %}
-									<strong>{{ contact.name }}</strong><br/><a href={{ contact.link }}>{{ contact.link }}</a>
+									<strong>{{ contact.name }}</strong><br/><a href="//{{ contact.link }}">{{ contact.link }}</a>
 								{% endif %}
 								</p>
 							{% endfor %}
@@ -235,7 +235,7 @@
 
 					<hr>
 
-					<p><a href="http://dopresskit.com/">presskit()</a> by Rami Ismail (<a href="http://www.vlambeer.com/">Vlambeer</a>) - also thanks to <a href="sheet.php?p=credits">these fine folks</a></p>
+					<p><a href="http://dopresskit.com/">presskit()</a> by Rami Ismail (<a href="http://www.vlambeer.com/">Vlambeer</a>) - also thanks to <a href={% block credit_path %}{% endblock %}>these fine folks</a></p>
 				</div>
 			</div>
 		</div>

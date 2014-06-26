@@ -3,6 +3,7 @@
 {% block title %}{{ company.title }}{% endblock %}
 {% block css_path %}"style.css"{% endblock %}
 {% block company_path %}""{% endblock %}
+{% block credit_path %}"credits.html"{% endblock %}
 {% block projects_features %}<li><a href="#projects">Projects</a></li>{% endblock %}
 {% block images_screenshots %}<li><a href="#images">Images</a></li>{% endblock %}
 
@@ -21,7 +22,7 @@
 	<p>
 		<strong>Social:</strong><br/>
 		{% for social in company.socials.social %}
-			<a href=//{{ social.link }}>{{ social.name }}</a><br/>
+			<a href="//{{ social.link }}">{{ social.name }}</a><br/>
 		{% endfor %}
 	</p>
 	<p>
