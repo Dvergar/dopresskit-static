@@ -1,3 +1,8 @@
+{% if file_exists("images/logo.zip") %} {% set logo_zip = true %} {% endif %}
+{% if file_exists("images/logo.png") %} {% set logo_png = true %} {% endif %}
+{% if file_exists("images/icon.png") %} {% set icon_png = true %} {% endif %}
+{% if logo_zip or logo_png or icon_png %} {% set logo = true %} {% endif %}
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -18,18 +23,19 @@
 
                     <ul class="uk-nav uk-nav-side">
                         <li><a href="#factsheet">Factsheet</a></li>
-                        <li><a href="#description">Description</a></li>
-                        <li><a href="#history">History</a></li>
+                        {% if project.description|length > 0 %}<li><a href="#description">Description</a></li>{% endif %}
+                        {% block histories_history %}{% endblock %}
                         {% block projects_features %}{% endblock %}
-                        <li><a href="#trailers">Videos</a></li>
-                        {% block images_screenshots %}{% endblock %}
-                        <li><a href="#logo">Logo & Icon</a></li>
-                        {% if "award" in company.awards %}<li><a href="#awards">Awards & Recognition</a></li>{% endif %}
-                        {% if "quote" in company.quotes %}<li><a href="#quotes">Selected Articles</a></li>{% endif %}
+                        {% if project.trailers|length > 0 %}<li><a href="#trailers">Videos</a></li>{% endif %}
+                        {% if file_exists("images/images.zip") or images|length > 0 %}{% block images_screenshots %}{% endblock %}{% endif %}
+                        {% if logo %}<li><a href="#logo">Logo & Icon</a></li>{% endif %}
+                        {% if project.awards|length > 0 %}<li><a href="#awards">Awards & Recognition</a></li>{% endif %}
+                        {% if project.quotes|length > 0 %}<li><a href="#quotes">Selected Articles</a></li>{% endif %}
                         {% block _navpreview %}{% endblock %}
-                        {% if "additional" in company.additionals %} <li><a href="#links">Additional Links</a></li> {% endif %}
-                        <li><a href="#credits">Team</a></li>
-                        <li><a href="#contact">Contact</a></li>
+                        {% if project.additionals|length > 0 %}<li><a href="#links">Additional Links</a></li> {% endif %}
+                        {% if project.credits|length > 0 %}<li><a href="#credits">Team</a></li>{% endif %}
+                        {% if company.contacts|length > 0 %}<li><a href="#contact">Contact</a></li>{% endif %}
+
                     </ul>
                 </div>
                 <div id="content" class="uk-width-medium-3-4">
@@ -44,53 +50,56 @@
                             <p>
                                 <strong>Developer:</strong><br/>
                                 <a href={% block company_path %}{% endblock %}>{{ company.title }}</a><br/>
-                                Based in {{ company.based_in }}
+                                {% if company.based_in|length > 0 %}
+                                    Based in {{ company.based_in }}
+                                {% endif %}
                             </p>
 
                             {% block foundingdate_releasedate %}{% endblock %}
 
-                            <p>
-                                <strong>Website:</strong><br/>
-                                {% set url = company.website|replace("http://", "") %}
-                                {% if url|truncate(4, true, "") == "www." %}
-                                    {% set url = url|replace("www.", "", 1) %}
-                                {% endif %}
-                                <a href="//{{ company.website }}">{{ url }}</a>
-                            </p>
+                            {% if company.website|length > 0 %}
+                                <p>
+                                    <strong>Website:</strong><br/>
+                                    {% set url = company.website|replace("http://", "") %}
+                                    {% if url|truncate(4, true, "") == "www." %}
+                                        {% set url = url|replace("www.", "", 1) %}
+                                    {% endif %}
+                                    <a href="//{{ company.website }}">{{ url }}</a>
+                                </p>
+                            {% endif %}
 
                             {% block press_regularprice %}{% endblock %}
 
                         </div>
+
                         <div class="uk-width-medium-4-6">
-                            <h2 id="description">Description</h2>
-                            <p>{{ company.description }}</p>
+                            {% if project.description|length > 0 %}
+                                <h2 id="description">Description</h2>
+                                <p>{{ company.description }}</p>
+                            {% endif %}
 
                             {% block historieprojects_historyfeatures %}{% endblock %}
-
                         </div>
                     </div>
 
                     <hr>
 
-                    <h2 id="trailers">Videos</h2>
-
-                    {% if not "trailer" in company.trailers %}
-                        <p>There are currently no trailers available for {{ company.title }}. Check back later for more or <a href="#contact">contact us</a> for specific requests!</p>
-                    {% else %}
-                        {% for trailer in company.trailers.trailer %}
+                    {% if project.trailers|length > 0 %}
+                        <h2 id="trailers">Videos</h2>
+                        {% for trailer in project.trailers.trailer %}
                             <p><strong>{{ trailer.name }}</strong>&nbsp;
 
                             {% if "youtube" in trailer %}
                                 <a href="http://www.youtube.com/watch?v={{ trailer.youtube }}">YouTube</a>
                                 <div class="uk-responsive-width iframe-container">
-                                    <iframe src="//www.youtube.com/embed/{{ trailer.youtube }}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                                    <iframe src="http://www.youtube.com/embed/{{ trailer.youtube }}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
                                 </div>
                             {% endif %}
 
                             {% if "vimeo" in trailer %}
                                 <a href="http://www.vimeo.com/{{ trailer.vimeo }}">Vimeo</a>
                                 <div class="uk-responsive-width iframe-container">
-                                    <iframe src="//player.vimeo.com/video/{{ trailer.vimeo }}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                                    <iframe src="http://player.vimeo.com/video/{{ trailer.vimeo }}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
                                 </div>
                             {% endif %}
 
@@ -105,73 +114,72 @@
                             </p>
 
                         {% endfor %}
+                        <hr>
                     {% endif %}
 
+                    {% if file_exists("images/images.zip") or images|length > 0 %}
+                        <h2 id="images">Images</h2>
+
+                        {% if file_exists("images/images.zip") %}
+                            {% set fsize = filesize("images/images.zip") %}
+                            {% if fsize > 1024 and fsize < 1048576 %}
+                                {% set fsize_clean = (fsize / 1024)|round ~ 'KB' %}
+                            {% endif %}
+                            {% if fsize > 1048576 %}
+                                {% set fsize_clean = ((fsize / 1024) / 1024)|round ~ 'MB' %}
+                            {% endif %}
+                            <a href="images/images.zip"><div class="uk-alert">download all screenshots &amp; photos as .zip ({{ fsize_clean }})</div></a>
+                        {% endif %}
+
+
+                        {% if images|length > 0 %}
+                            <div class="uk-grid images">
+                            {% set images = get_images(['png', 'jpg', 'gif']) %}
+                                {% for image in images if not image == 'header.png' %}
+                                    <div class="uk-width-medium-1-2"><a href="images/{{ image }}"><img src="images/{{ image }}" alt="{{ image }}" /></a></div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        <br/>
+                        <p class="images-text">There are far more images available for {{ company.title }}, but these are the ones we felt would be most useful to you. If you have specific requests, please do <a href="#contact">contact us</a>!</p>
+
+                        <hr>
+                    {% endif %}
+
+                    {% if logo %}
+                        <h2 id="logo">Logo & Icon</h2>
+
+                        {% if logo_zip %}
+                            {% set fsize = filesize("images/logo.zip") %}
+                            {% if fsize > 1024 and fsize < 1048576 %}
+                                {% set fsize_clean = (fsize / 1024)|round ~ 'KB' %}
+                            {% endif %}
+                            {% if fsize > 1048576 %}
+                                {% set fsize_clean = ((fsize / 1024) / 1024)|round ~ 'MB' %}
+                            {% endif %}
+                            <a href="images/logo.zip"><div class="uk-alert">download logo files as .zip ({{ fsize_clean }})</div></a>
+                        {% endif %}
+
+                        <div class="uk-grid images">
+
+                        {% if logo_png %}
+                            <div class="uk-width-medium-1-2"><a href="images/logo.png"><img src="images/logo.png" alt="logo" /></a></div>
+                        {% endif %}
+
+                        {% if icon_png %}
+                            <div class="uk-width-medium-1-2"><a href="images/icon.png"><img src="images/icon.png" alt="logo" /></a></div>
+                        {% endif %}
+
+                        </div>
                     <hr>
-
-                    <h2 id="images">Images</h2>
-
-                    {% if file_exists("images/images.zip") %}
-                        {% set fsize = filesize("images/images.zip") %}
-                        {% if fsize > 1024 and fsize < 1048576 %}
-                            {% set fsize_clean = (fsize / 1024)|round ~ 'KB' %}
-                        {% endif %}
-                        {% if fsize > 1048576 %}
-                            {% set fsize_clean = ((fsize / 1024) / 1024)|round ~ 'MB' %}
-                        {% endif %}
-                        <a href="images/images.zip"><div class="uk-alert">download all screenshots &amp; photos as .zip ({{ fsize_clean }})</div></a>
                     {% endif %}
 
 
-                    <div class="uk-grid images">
-                    {% set images = get_images(['png', 'jpg', 'gif']) %}
-                    {% if images|length > 0 %}
-                        {% for image in images if not image == 'header.png' %}
-                            <div class="uk-width-medium-1-2"><a href="images/{{ image }}"><img src="images/{{ image }}" alt="{{ image }}" /></a></div>
-                        {% endfor %}
-                    {% endif %}
-                    </div>
-
-                    <br/>
-                    <p class="images-text">There are far more images available for {{ company.title }}, but these are the ones we felt would be most useful to you. If you have specific requests, please do <a href="#contact">contact us</a>!</p>
-
-                    <hr>
-
-                    <h2 id="logo">Logo & Icon</h2>
-
-                    {% if file_exists("images/logo.zip") %}
-                        {% set fsize = filesize("images/logo.zip") %}
-                        {% if fsize > 1024 and fsize < 1048576 %}
-                            {% set fsize_clean = (fsize / 1024)|round ~ 'KB' %}
-                        {% endif %}
-                        {% if fsize > 1048576 %}
-                            {% set fsize_clean = ((fsize / 1024) / 1024)|round ~ 'MB' %}
-                        {% endif %}
-                        <a href="images/logo.zip"><div class="uk-alert">download logo files as .zip ({{ fsize_clean }})</div></a>
-                    {% endif %}
-
-                    <div class="uk-grid images">
-
-                    {% if file_exists("images/logo.png") %}
-                        <div class="uk-width-medium-1-2"><a href="images/logo.png"><img src="images/logo.png" alt="logo" /></a></div>
-                    {% endif %}
-
-                    {% if file_exists("images/icon.png") %}
-                        echo '<div class="uk-width-medium-1-2"><a href="images/icon.png"><img src="images/icon.png" alt="logo" /></a></div>
-                    {% endif %}
-
-                    </div>
-
-                    {% if not file_exists("images/logo.png") and not file_exists("images/icon.png") %}
-                        <p>There are currently no logos or icons available for {{ company.title }}. Check back later for more or <a href="#contact">contact us</a> for specific requests!</p>
-                    {% endif %}
-
-                    <hr>
-
-                    {% if "award" in company.awards %}
+                    {% if project.awards|length > 0 %}
                         <h2 id="awards">Awards & Recognition</h2>
                         <ul>
-                            {% for award in company.awards.award %}
+                            {% for award in project.awards.award %}
                                 <li>"{{ award.description }}" - <cite>{{ award.info }}</cite></li>
                             {% endfor %}
                         </ul>
@@ -180,10 +188,10 @@
 
                     {% block _preview %}{% endblock %}
 
-                    {% if "quote" in company.quotes %}
+                    {% if project.quotes|length > 0 %}
                         <h2 id="quotes">Selected Articles</h2>
                         <ul>
-                            {% for quote in company.quotes.quote %}
+                            {% for quote in project.quotes.quote %}
                                 <li>"{{ quote.description }}"<br/><cite>- {{ quote.name }}, <a href={{ quote.link }}>{{ quote.website }}</a></cite></li></li>
                             {% endfor %}
 
@@ -191,7 +199,7 @@
                         <hr>
                     {% endif %}
 
-                    {% if "additional" in company.additionals %}
+                    {% if company.additionals|length > 0 %}
                         <h2 id="links">Additional Links</h2>
                         {% for additional in company.additionals.additional %}
                             <p>
@@ -203,48 +211,55 @@
                         <hr>
                     {% endif %}
 
-                    <div class="uk-grid">
-                        <div class="uk-width-medium-1-2">
-                            <h2 id="credits">{% block credit_name %}{% endblock %}</h2>
+                    {% if project.credits|length > 0 or company.contacts|length > 0 %}
+                        <div class="uk-grid">
+                            {% if project.credits|length > 0 %}
+                                <div class="uk-width-medium-1-2">
+                                    <h2 id="credits">{% block credit_name %}{% endblock %}</h2>
 
-                            {% for credit in company.credits.credit %}
-                                <p>
-                                <strong>{{ credit.person }} </strong><br/>
-                                {% if "website" in credit and credit.website|length != 0 %}
-                                    <a href="//{{ credit.website }}">{{ credit.role }}</a>
-                                {% endif %}
-                                </p>
-                            {% endfor %}
+                                    {% for credit in project.credits.credit %}
+                                        <p>
+                                        <strong>{{ credit.person }} </strong><br/>
+                                        {% if "website" in credit and credit.website|length != 0 %}
+                                            <a href="//{{ credit.website }}">{{ credit.role }}</a>
+                                        {% endif %}
+                                        </p>
+                                    {% endfor %}
 
+                                </div>
+                            {% endif %}
+
+                            {% if company.contacts|length > 0 %}
+                                <div class="uk-width-medium-1-2">
+                                    <h2 id="contact">Contact</h2>
+
+                                    {% for contact in company.contacts.contact %}
+                                        <p>
+                                        
+                                        {% if not "link" in contact and contact.mail|length > 0 %}
+                                            <strong>{{ contact.name }}</strong><br/><a href="mailto:{{ contact.mail }}">{{ contact.mail }}</a>
+                                        {% endif %}
+
+                                        {% if not "mail" in contact and contact.link|length > 0 %}
+                                            <strong>{{ contact.name }}</strong><br/><a href="//{{ contact.link }}">{{ contact.link }}</a>
+                                        {% endif %}
+                                        </p>
+                                    {% endfor %}
+
+                                </div>
+                            {% endif %}
                         </div>
+                        <hr>
+                    {% endif %}
 
-                        <div class="uk-width-medium-1-2">
-                            <h2 id="contact">Contact</h2>
-
-                            {% for contact in company.contacts.contact %}
-                                <p>
-                                
-                                {% if not "link" in contact and contact.mail|length > 0 %}
-                                    <strong>{{ contact.name }}</strong><br/><a href="mailto:{{ contact.mail }}">{{ contact.mail }}</a>
-                                {% endif %}
-
-                                {% if not "mail" in contact and contact.link|length > 0 %}
-                                    <strong>{{ contact.name }}</strong><br/><a href="//{{ contact.link }}">{{ contact.link }}</a>
-                                {% endif %}
-                                </p>
-                            {% endfor %}
-
-                        </div>
-                    </div>
-
-                    <hr>
 
                     <p><a href="http://dopresskit.com/">presskit()</a> by Rami Ismail (<a href="http://www.vlambeer.com/">Vlambeer</a>) - also thanks to <a href={% block credit_path %}{% endblock %}>these fine folks</a></p>
                 </div>
             </div>
         </div>
 
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>-->
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.0.4/jquery.imagesloaded.js"></script>      
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/masonry/3.1.2/masonry.pkgd.min.js"></script>
         <script type="text/javascript">

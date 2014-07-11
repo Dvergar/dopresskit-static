@@ -203,9 +203,11 @@ def do_compile(project_name, company_datas=None):
         filesize=os.path.getsize, get_images=get_images,
         get_projects=get_projects, google_analytics=ga)
 
-    with open(os.path.join(project_name, "index.html"), "wb") as fh:
+    path = os.path.join(project_name, "index.html")
+    with open(path, "wb") as fh:
         fh.write(output.encode('utf-8'))
 
+    print "--generated : " + path
     return xml_obj
 
 

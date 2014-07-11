@@ -4,7 +4,14 @@
 {% block css_path %}"style.css"{% endblock %}
 {% block company_path %}""{% endblock %}
 {% block credit_path %}"credits.html"{% endblock %}
-{% block projects_features %}<li><a href="#projects">Projects</a></li>{% endblock %}
+{% block histories_history %}
+    {% if company.histories|length > 0 %}
+        <li><a href="#history">History</a></li>
+    {% endif %}
+{% endblock %}
+{% block projects_features %}
+    {% if get_projects()|length > 0 %}<li><a href="#projects">Projects</a></li>{% endif %}
+{% endblock %}
 {% block images_screenshots %}<li><a href="#images">Images</a></li>{% endblock %}
 
 {% block header %}
@@ -16,58 +23,75 @@
 {% endblock %}
 
 {% block foundingdate_releasedate %}
-    <p>
-        <strong>Founding date:</strong><br/>
-        {{ company.founding_date }}
-    </p>
+    {% if company.founding_date|length > 0 %}
+        <p>
+            <strong>Founding date:</strong><br/>
+            {{ company.founding_date }}
+        </p>
+    {% endif %}
 {% endblock %}
 
 {% block press_regularprice %}
-    <p>
-        <strong>Press / Business Contact:</strong><br/>
-        <a href="mailto:{{ company.press_contact }}">{{ company.press_contact }}</a>
-    </p>        
-    <p>
-        <strong>Social:</strong><br/>
-        {% for social in company.socials.social %}
-            <a href="//{{ social.link }}">{{ social.name }}</a><br/>
-        {% endfor %}
-    </p>
-    <p>
-    <strong>Releases:</strong><br />
-    {% for project in get_projects() %}
-        <a href="{{ project }}">{{ project|replace("_", " ")|title }}</a><br />
-    {% endfor %}
+    {% if company.press_contact|length > 0 %}
+        <p>
+            <strong>Press / Business Contact:</strong><br/>
+            <a href="mailto:{{ company.press_contact }}">{{ company.press_contact }}</a>
+        </p>
+    {% endif %}
 
-    </p>
+    {% if company.socials|length > 0 %}
+        <p>
+            <strong>Social:</strong><br/>
+            {% for social in company.socials.social %}
+                <a href="//{{ social.link }}">{{ social.name }}</a><br/>
+            {% endfor %}
+        </p>
+    {% endif %}
+
+    {% if get_projects()|length > 0 %}
+        <p>
+            <strong>Releases:</strong><br />
+            {% for project in get_projects() %}
+                <a href="{{ project }}">{{ project|replace("_", " ")|title }}</a><br />
+            {% endfor %}
+        </p>
+    {% endif %}
+
     <p>
-    {% if "line" in company.address %}
+    {% if company.address|length > 0 %}
         <strong>Address:</strong><br/>
         {% for address in company.address.line %}
             {{ address }}<br/>
         {% endfor %}
     {% endif %}
-    </p> 
-    <p>
-        <strong>Phone:</strong><br/>
-        {{ company.phone }}
     </p>
+
+    {% if company.phone|length > 0 %}
+        <p>
+            <strong>Phone:</strong><br/>
+            {{ company.phone }}
+        </p>
+    {% endif %}
 {% endblock %}
 
 {% block historieprojects_historyfeatures %}
-    <h2 id="history">History</h2>
+    {% if company.histories|length > 0 %}
+        <h2 id="history">History</h2>
 
-    {% for history in company.histories.history %}
-        <strong>{{ history.header }}</strong>
-        <p>{{ history.text }}</p>
-    {% endfor %}
+        {% for history in company.histories.history %}
+            <strong>{{ history.header }}</strong>
+            <p>{{ history.text }}</p>
+        {% endfor %}
+    {% endif %}
 
-    <h2 id="projects">Projects</h2>
-    <ul>
+    {% if get_projects()|length > 0 %}
+        <h2 id="projects">Projects</h2>
+        <ul>
 
-    {% for project in get_projects() %}
-        <li><a href="{{ project }}/index.html">{{ project|replace("_", " ")|title }}</a></li>
-    {% endfor %}
+        {% for project in get_projects() %}
+            <li><a href="{{ project }}/index.html">{{ project|replace("_", " ")|title }}</a></li>
+        {% endfor %}
+    {% endif %}
 
     </ul>
 {% endblock %}
