@@ -8,13 +8,16 @@ If you don't wan't to rely on PHP you can use it with the same xml files & direc
 You can even **host it on dropbox** : [demo](https://dl.dropboxusercontent.com/u/8211966/presskit-static/index.html)
 
 # Features
-* Not relying on PHP
+* Not PHP
 * More comprehensible source (thanks to python being python & the simple jinja syntax)
 * Hostable on dropbox or anywhere with a simple drag & drop
 * Compatible with the original presskit() xml files & directory structure
+* Each non-filled xml tags will hide the appropriate section in the generated page
+
+*Note : One thing you will lose from Vlambeer's version is the ability to make presskit requests through the server-side mail system.*
 
 # Getting started
-Go read the original [https://github.com/ramiismail/dopresskit](https://github.com/ramiismail/dopresskit) to see what presskit() is about.
+Go read the original [https://github.com/ramiismail/dopresskit](https://github.com/ramiismail/dopresskit) to see what presskit() is all about.
 
 ## Python environment
 It requires python 2.7 (2.6 probably works as well) and the jinja2 package.
@@ -29,11 +32,11 @@ You should be able to compile a project as is with the default `data.xml`.
 
 * Run `python generate.py`, it will generate an `index.html` file at the root of your folder and in each of the project folders (by default, none).
 * Open `index.html` and it's done!
-* Edit the various `data.xml` files to your needs.
+* Edit the various `data.xml` files to your needs and run `python generate.py` again.
 
-If you want to add a project, copy the `_template` folder and rename it, run `python generate.py` again and a project should show up in the *Projects* section of the page.
+If you want to add a project, copy the `_template` folder and rename it, re generate the html files and a project should show up in the *Projects* section of the page.
 
-*Note : A project folder will be ignored if its name is starting with an \_uppercase_, if containing any space and if not in lowercase. *Super Crate Box* would have a folder named `super_crate_box` to be valid.*
+*Note : A project folder will be ignored if its name is starting with an \_uppercase_, if containing any space and if not in lowercase. 'Super Crate Box' would have a folder named `super_crate_box` to be valid.*
 
 ## Google Analytics
 To add google analytics support simply add your *Tracker ID* as an argument like this `python generate.py UA-1234567-89`
