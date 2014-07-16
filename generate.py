@@ -170,6 +170,11 @@ def file_exists(filepath):
     return os.path.isfile(os.path.join(now_project, filepath))
 
 
+def parse_url(url):
+    if url[:7] != "http://":
+        url = "http://" + url
+    return url
+
 env = Environment(loader=FileSystemLoader(""))
 
 
@@ -202,7 +207,8 @@ def do_compile(project_name, company_datas=None):
     output = t.render(
         company=company_datas, project=xml_obj, common=xml_obj,
         file_exists=file_exists, filesize=os.path.getsize,
-        get_images=get_images, get_projects=get_projects, google_analytics=ga)
+        get_images=get_images, get_projects=get_projects, google_analytics=ga,
+        parse_url=parse_url)
 
     path = os.path.join(project_name, "index.html")
     with open(path, "wb") as fh:

@@ -64,7 +64,7 @@
                                     {% if url|truncate(4, true, "") == "www." %}
                                         {% set url = url|replace("www.", "", 1) %}
                                     {% endif %}
-                                    <a href="{{ company.website }}">{{ url }}</a>
+                                    <a href="{{ parse_url(company.website) }}">{{ url }}</a>
                                 </p>
                             {% endif %}
 
@@ -192,7 +192,7 @@
                         <h2 id="quotes">Selected Articles</h2>
                         <ul>
                             {% for quote in common.quotes.quote %}
-                                <li>"{{ quote.description }}"<br/><cite>- {{ quote.name }}, <a href={{ quote.link }}>{{ quote.website }}</a></cite></li></li>
+                                <li>"{{ quote.description }}"<br/><cite>- {{ quote.name }}, <a href="{{ parse_url(quote.link) }}">{{ quote.website }}</a></cite></li></li>
                             {% endfor %}
 
                         </ul>
@@ -204,7 +204,7 @@
                         {% for additional in company.additionals.additional %}
                             <p>
                                 <strong>{{ additional.title }}</strong><br/>
-                                {{ additional.description }} <a href="//{{ additional.link }}" alt={{ additional.link }}>{{ additional.link }}</a>.
+                                {{ additional.description }} <a href="{{ parse_url(additional.link) }}" alt={{ additional.link }}>{{ additional.link }}</a>.
                             </p>
                         {% endfor %}
 
@@ -221,7 +221,7 @@
                                         <p>
                                         <strong>{{ credit.person }} </strong><br/>
                                         {% if "website" in credit and credit.website|length != 0 %}
-                                            <a href="//{{ credit.website }}">{{ credit.role }}</a>
+                                            <a href="{{ parse_url(credit.website) }}">{{ credit.role }}</a>
                                         {% endif %}
                                         </p>
                                     {% endfor %}
@@ -241,7 +241,7 @@
                                         {% endif %}
 
                                         {% if not "mail" in contact and contact.link|length > 0 %}
-                                            <strong>{{ contact.name }}</strong><br/><a href="//{{ contact.link }}">{{ contact.link }}</a>
+                                            <strong>{{ contact.name }}</strong><br/><a href="{{ parse_url(contact.link) }}">{{ contact.link }}</a>
                                         {% endif %}
                                         </p>
                                     {% endfor %}
