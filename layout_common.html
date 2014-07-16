@@ -1,11 +1,3 @@
-{#
-    note: When compiling the company page, company datas can be accessed
-    through both "company" & "project" variables.
-
-    In this file all "project" variables refer to company datas if parsed
-    for the company page and project datas if parsed for the projects pages.
-#}
-
 {% if file_exists("images/logo.zip") %} {% set logo_zip = true %} {% endif %}
 {% if file_exists("images/logo.png") %} {% set logo_png = true %} {% endif %}
 {% if file_exists("images/icon.png") %} {% set icon_png = true %} {% endif %}
@@ -31,17 +23,17 @@
 
                     <ul class="uk-nav uk-nav-side">
                         <li><a href="#factsheet">Factsheet</a></li>
-                        {% if project.description|length > 0 %}<li><a href="#description">Description</a></li>{% endif %}
+                        {% if common.description|length > 0 %}<li><a href="#description">Description</a></li>{% endif %}
                         {% block histories_history %}{% endblock %}
                         {% block projects_features %}{% endblock %}
-                        {% if project.trailers|length > 0 %}<li><a href="#trailers">Videos</a></li>{% endif %}
+                        {% if common.trailers|length > 0 %}<li><a href="#trailers">Videos</a></li>{% endif %}
                         {% if file_exists("images/images.zip") or images|length > 0 %}{% block images_screenshots %}{% endblock %}{% endif %}
                         {% if logo %}<li><a href="#logo">Logo & Icon</a></li>{% endif %}
-                        {% if project.awards|length > 0 %}<li><a href="#awards">Awards & Recognition</a></li>{% endif %}
-                        {% if project.quotes|length > 0 %}<li><a href="#quotes">Selected Articles</a></li>{% endif %}
+                        {% if common.awards|length > 0 %}<li><a href="#awards">Awards & Recognition</a></li>{% endif %}
+                        {% if common.quotes|length > 0 %}<li><a href="#quotes">Selected Articles</a></li>{% endif %}
                         {% block _navpreview %}{% endblock %}
-                        {% if project.additionals|length > 0 %}<li><a href="#links">Additional Links</a></li> {% endif %}
-                        {% if project.credits|length > 0 %}<li><a href="#credits">Team</a></li>{% endif %}
+                        {% if common.additionals|length > 0 %}<li><a href="#links">Additional Links</a></li> {% endif %}
+                        {% if common.credits|length > 0 %}<li><a href="#credits">Team</a></li>{% endif %}
                         {% if company.contacts|length > 0 %}<li><a href="#contact">Contact</a></li>{% endif %}
 
                     </ul>
@@ -81,7 +73,7 @@
                         </div>
 
                         <div class="uk-width-medium-4-6">
-                            {% if project.description|length > 0 %}
+                            {% if common.description|length > 0 %}
                                 <h2 id="description">Description</h2>
                                 <p>{{ company.description }}</p>
                             {% endif %}
@@ -92,22 +84,22 @@
 
                     <hr>
 
-                    {% if project.trailers|length > 0 %}
+                    {% if common.trailers|length > 0 %}
                         <h2 id="trailers">Videos</h2>
-                        {% for trailer in project.trailers.trailer %}
+                        {% for trailer in common.trailers.trailer %}
                             <p><strong>{{ trailer.name }}</strong>&nbsp;
 
                             {% if "youtube" in trailer %}
-                                <a href="http://www.youtube.com/watch?v={{ trailer.youtube }}">YouTube</a>
+                                <a href="https://www.youtube.com/watch?v={{ trailer.youtube }}">YouTube</a>
                                 <div class="uk-responsive-width iframe-container">
-                                    <iframe src="http://www.youtube.com/embed/{{ trailer.youtube }}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                                    <iframe src="https://www.youtube.com/embed/{{ trailer.youtube }}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
                                 </div>
                             {% endif %}
 
                             {% if "vimeo" in trailer %}
-                                <a href="http://www.vimeo.com/{{ trailer.vimeo }}">Vimeo</a>
+                                <a href="https://www.vimeo.com/{{ trailer.vimeo }}">Vimeo</a>
                                 <div class="uk-responsive-width iframe-container">
-                                    <iframe src="http://player.vimeo.com/video/{{ trailer.vimeo }}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                                    <iframe src="https://player.vimeo.com/video/{{ trailer.vimeo }}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
                                 </div>
                             {% endif %}
 
@@ -184,10 +176,10 @@
                     {% endif %}
 
 
-                    {% if project.awards|length > 0 %}
+                    {% if common.awards|length > 0 %}
                         <h2 id="awards">Awards & Recognition</h2>
                         <ul>
-                            {% for award in project.awards.award %}
+                            {% for award in common.awards.award %}
                                 <li>"{{ award.description }}" - <cite>{{ award.info }}</cite></li>
                             {% endfor %}
                         </ul>
@@ -196,10 +188,10 @@
 
                     {% block _preview %}{% endblock %}
 
-                    {% if project.quotes|length > 0 %}
+                    {% if common.quotes|length > 0 %}
                         <h2 id="quotes">Selected Articles</h2>
                         <ul>
-                            {% for quote in project.quotes.quote %}
+                            {% for quote in common.quotes.quote %}
                                 <li>"{{ quote.description }}"<br/><cite>- {{ quote.name }}, <a href={{ quote.link }}>{{ quote.website }}</a></cite></li></li>
                             {% endfor %}
 
@@ -219,13 +211,13 @@
                         <hr>
                     {% endif %}
 
-                    {% if project.credits|length > 0 or company.contacts|length > 0 %}
+                    {% if common.credits|length > 0 or company.contacts|length > 0 %}
                         <div class="uk-grid">
-                            {% if project.credits|length > 0 %}
+                            {% if common.credits|length > 0 %}
                                 <div class="uk-width-medium-1-2">
                                     <h2 id="credits">{% block credit_name %}{% endblock %}</h2>
 
-                                    {% for credit in project.credits.credit %}
+                                    {% for credit in common.credits.credit %}
                                         <p>
                                         <strong>{{ credit.person }} </strong><br/>
                                         {% if "website" in credit and credit.website|length != 0 %}

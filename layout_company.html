@@ -52,7 +52,7 @@
         <p>
             <strong>Releases:</strong><br />
             {% for project in get_projects() %}
-                <a href="{{ project }}">{{ project|replace("_", " ")|title }}</a><br />
+                <a href="{{ project }}/index.html">{{ project|replace("_", " ")|title }}</a><br />
             {% endfor %}
         </p>
     {% endif %}

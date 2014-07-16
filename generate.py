@@ -200,9 +200,9 @@ def do_compile(project_name, company_datas=None):
     # WRITE ON DISK
     t = env.get_template(layout_name)
     output = t.render(
-        company=company_datas, project=xml_obj, file_exists=file_exists,
-        filesize=os.path.getsize, get_images=get_images,
-        get_projects=get_projects, google_analytics=ga)
+        company=company_datas, project=xml_obj, common=xml_obj,
+        file_exists=file_exists, filesize=os.path.getsize,
+        get_images=get_images, get_projects=get_projects, google_analytics=ga)
 
     path = os.path.join(project_name, "index.html")
     with open(path, "wb") as fh:
