@@ -108,9 +108,9 @@ def xml2obj(src):
 # FUNCTIONS THAT JUST TALK
 def blabla_ga():
     if ga is None:
-        print "Google analytics : Disabled"
-        print "Use 'python generate.py <Tracking ID> to activate google" + \
-              "analytics"
+        print ">>> Google analytics ID : Not found, skipping..."
+        print "        Use 'python generate.py <Tracking ID> " + \
+              "to activate google analytics"
     else:
         print "Google analytics : Enabled (ID: %s)" % (ga)
 
@@ -118,13 +118,11 @@ def blabla_ga():
 def blabla_projects():
     projects = get_projects()
     if len(projects) == 0:
-        print "No project found! Duplicate the '_template' folder, rename it"
-        print "and edit data.xml"
-        print "The project folder name must be lowercase and spaces replaced"
-        print "by _underscores_."
-    else:
-        for project in projects:
-            print "Project found:", project
+        print ">>> No project found, skipping..."
+        print "        Duplicate the '_template' folder, rename it " + \
+              "and edit data.xml"
+        print "        The project folder name must be lowercase " + \
+              "and spaces by _underscores_."
 
 
 ###############################################################
@@ -132,6 +130,7 @@ def blabla_projects():
 now_project = "."
 ga = sys.argv[1] if len(sys.argv) == 2 else None
 blabla_ga()
+
 
 # HELPERS
 def get_images(extensions):
@@ -149,19 +148,21 @@ def get_images(extensions):
 
 def get_projects():
     projects = []
-    for content in os.listdir('.'):
+    for folder_name in os.listdir('.'):
         # FILTER OUT
-        if os.path.isfile(content):
+        if os.path.isfile(folder_name):
             continue
-        if ' ' in content:
+        if ' ' in folder_name:
             continue
-        if content[0] == '_':
+        if folder_name[0] == '_':
+            continue
+        if len([l for l in folder_name if l.isupper()]) > 0:
             continue
 
         # SEARCH FOR data.xml
-        for f in os.listdir(content):
+        for f in os.listdir(folder_name):
             if f == "data.xml":
-                projects.append(content)
+                projects.append(folder_name)
     return projects
 
 
@@ -181,8 +182,8 @@ def do_compile(project_name, company_datas=None):
         return match.group().replace("-", "_")
 
     xml_datas = open(os.path.join(project_name, 'data.xml'), 'r')
-    p = re.compile('\<[^?!].*?\>')
-    xml_datas = p.sub(undash, xml_datas.read())
+    regex = re.compile('\<[^?!].*?\>')
+    xml_datas = regex.sub(undash, xml_datas.read())
 
     # PARSE
     xml_obj = xml2obj(xml_datas)
@@ -207,7 +208,7 @@ def do_compile(project_name, company_datas=None):
     with open(path, "wb") as fh:
         fh.write(output.encode('utf-8'))
 
-    print "--generated : " + path
+    print ">>> generated : " + path
     return xml_obj
 
 

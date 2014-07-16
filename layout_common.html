@@ -1,3 +1,11 @@
+{#
+    note: When compiling the company page, company datas can be accessed
+    through both "company" & "project" variables.
+
+    In this file all "project" variables refer to company datas if parsed
+    for the company page and project datas if parsed for the projects pages.
+#}
+
 {% if file_exists("images/logo.zip") %} {% set logo_zip = true %} {% endif %}
 {% if file_exists("images/logo.png") %} {% set logo_png = true %} {% endif %}
 {% if file_exists("images/icon.png") %} {% set icon_png = true %} {% endif %}
