@@ -54,6 +54,13 @@
     {% endif %}
 {% endblock %}
 
+{% block description %}
+    {% if project.description|length > 0 %}
+        <h2 id="description">Description</h2>
+        <p>{{ project.description }}</p>
+    {% endif %}
+{% endblock %}
+
 {% block historieprojects_historyfeatures %}
     {% if project.history|length > 0 %}
         <h2 id="history">History</h2>
