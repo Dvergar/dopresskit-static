@@ -73,7 +73,11 @@
                         </div>
 
                         <div class="uk-width-medium-4-6">
-                            {% block description %}{% endblock %}
+                            {% if common.description|length > 0 %}
+                                <h2 id="description">Description</h2>
+                                <p>{{ common.description }}</p>
+                            {% endif %}
+
                             {% block historieprojects_historyfeatures %}{% endblock %}
                         </div>
                     </div>
@@ -195,7 +199,18 @@
                         <hr>
                     {% endif %}
 
-                    {% block additionals %}{% endblock %}
+                    <!-- {% block additionals %}{% endblock %} -->
+                    {% if common.additionals|length > 0 %}
+                        <h2 id="links">Additional Links</h2>
+                        {% for additional in common.additionals.additional %}
+                            <p>
+                                <strong>{{ additional.title }}</strong><br/>
+                                {{ additional.description }} <a href="//{{ additional.link }}" alt={{ additional.link }}>{{ additional.link }}</a>.
+                            </p>
+                        {% endfor %}
+
+                        <hr>
+                    {% endif %}
 
                     {% if common.credits|length > 0 or company.contacts|length > 0 %}
                         <div class="uk-grid">

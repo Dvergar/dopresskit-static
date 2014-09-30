@@ -74,13 +74,6 @@
     {% endif %}
 {% endblock %}
 
-{% block description %}
-    {% if company.description|length > 0 %}
-        <h2 id="description">Description</h2>
-        <p>{{ company.description }}</p>
-    {% endif %}
-{% endblock %}
-
 {% block historieprojects_historyfeatures %}
     {% if company.histories|length > 0 %}
         <h2 id="history">History</h2>
@@ -101,20 +94,6 @@
     {% endif %}
 
     </ul>
-{% endblock %}
-
-{% block additionals %}
-    {% if company.additionals|length > 0 %}
-        <h2 id="links">Additional Links</h2>
-        {% for additional in company.additionals.additional %}
-            <p>
-                <strong>{{ additional.title }}</strong><br/>
-                {{ additional.description }} <a href="{{ parse_url(additional.link) }}" alt={{ additional.link }}>{{ additional.link }}</a>.
-            </p>
-        {% endfor %}
-
-        <hr>
-    {% endif %}
 {% endblock %}
 
 {% block credit_name %}Team & Repeating Collaborators{% endblock %}

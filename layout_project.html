@@ -54,13 +54,6 @@
     {% endif %}
 {% endblock %}
 
-{% block description %}
-    {% if project.description|length > 0 %}
-        <h2 id="description">Description</h2>
-        <p>{{ project.description }}</p>
-    {% endif %}
-{% endblock %}
-
 {% block historieprojects_historyfeatures %}
     {% if project.history|length > 0 %}
         <h2 id="history">History</h2>
@@ -83,20 +76,6 @@
     {% if company.press_can_request_copy == 'TRUE' %}
         <h2 id="preview">Request Press Copy</h2>
         <p>Please send us an e-mail at <a href="mailto:{{ company.press_contact }}">{{ company.press_contact }}</a> and we'll get back to you as soon as a press copy is available for you.</p>
-        <hr>
-    {% endif %}
-{% endblock %}
-
-{% block additionals %}
-    {% if project.additionals|length > 0 %}
-        <h2 id="links">Additional Links</h2>
-        {% for additional in project.additionals.additional %}
-            <p>
-                <strong>{{ additional.title }}</strong><br/>
-                {{ additional.description }} <a href="{{ parse_url(additional.link) }}" alt={{ additional.link }}>{{ additional.link }}</a>.
-            </p>
-        {% endfor %}
-
         <hr>
     {% endif %}
 {% endblock %}
