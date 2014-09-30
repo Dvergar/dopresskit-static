@@ -87,4 +87,18 @@
     {% endif %}
 {% endblock %}
 
+{% block additionals %}
+    {% if project.additionals|length > 0 %}
+        <h2 id="links">Additional Links</h2>
+        {% for additional in project.additionals.additional %}
+            <p>
+                <strong>{{ additional.title }}</strong><br/>
+                {{ additional.description }} <a href="{{ parse_url(additional.link) }}" alt={{ additional.link }}>{{ additional.link }}</a>.
+            </p>
+        {% endfor %}
+
+        <hr>
+    {% endif %}
+{% endblock %}
+
 {% block credit_name %}{{ project.title}} Credits{% endblock %}

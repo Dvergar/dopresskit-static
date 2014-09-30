@@ -195,17 +195,7 @@
                         <hr>
                     {% endif %}
 
-                    {% if company.additionals|length > 0 %}
-                        <h2 id="links">Additional Links</h2>
-                        {% for additional in company.additionals.additional %}
-                            <p>
-                                <strong>{{ additional.title }}</strong><br/>
-                                {{ additional.description }} <a href="{{ parse_url(additional.link) }}" alt={{ additional.link }}>{{ additional.link }}</a>.
-                            </p>
-                        {% endfor %}
-
-                        <hr>
-                    {% endif %}
+                    {% block additionals %}{% endblock %}
 
                     {% if common.credits|length > 0 or company.contacts|length > 0 %}
                         <div class="uk-grid">
