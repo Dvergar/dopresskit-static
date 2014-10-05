@@ -143,6 +143,7 @@ def get_images(extensions):
         for ext in extensions:
             if f.endswith(ext):
                 files.append(f)
+
     return files
 
 
@@ -168,6 +169,10 @@ def get_projects():
 
 def file_exists(filepath):
     return os.path.isfile(os.path.join(now_project, filepath))
+
+
+def filesize(filepath):
+    return os.path.getsize(os.path.join(now_project, filepath))
 
 
 def parse_url(url):
@@ -206,7 +211,7 @@ def do_compile(project_name, company_datas=None):
     t = env.get_template(layout_name)
     output = t.render(
         company=company_datas, project=xml_obj, common=xml_obj,
-        file_exists=file_exists, filesize=os.path.getsize,
+        file_exists=file_exists, filesize=filesize,
         get_images=get_images, get_projects=get_projects, google_analytics=ga,
         parse_url=parse_url)
 
