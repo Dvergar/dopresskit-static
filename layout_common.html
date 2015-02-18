@@ -120,13 +120,7 @@
 
                         {% if file_exists("images/images.zip") %}
                             {% set fsize = filesize("images/images.zip") %}
-                            {% if fsize > 1024 and fsize < 1048576 %}
-                                {% set fsize_clean = (fsize / 1024)|round ~ 'KB' %}
-                            {% endif %}
-                            {% if fsize > 1048576 %}
-                                {% set fsize_clean = ((fsize / 1024) / 1024)|round ~ 'MB' %}
-                            {% endif %}
-                            <a href="images/images.zip"><div class="uk-alert">download all screenshots &amp; photos as .zip ({{ fsize_clean }})</div></a>
+                            <a href="images/images.zip"><div class="uk-alert">download all screenshots &amp; photos as .zip ({{ fsize|filesizeformat }})</div></a>
                         {% endif %}
 
 
@@ -149,13 +143,7 @@
 
                         {% if logo_zip %}
                             {% set fsize = filesize("images/logo.zip") %}
-                            {% if fsize > 1024 and fsize < 1048576 %}
-                                {% set fsize_clean = (fsize / 1024)|round ~ 'KB' %}
-                            {% endif %}
-                            {% if fsize > 1048576 %}
-                                {% set fsize_clean = ((fsize / 1024) / 1024)|round ~ 'MB' %}
-                            {% endif %}
-                            <a href="images/logo.zip"><div class="uk-alert">download logo files as .zip ({{ fsize_clean }})</div></a>
+                            <a href="images/logo.zip"><div class="uk-alert">download logo files as .zip ({{ fsize|filesizeformat }})</div></a>
                         {% endif %}
 
                         <div class="uk-grid images">
