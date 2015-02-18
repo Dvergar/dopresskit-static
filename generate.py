@@ -1,6 +1,7 @@
 import re
 import os.path
 import sys
+import urlparse
 import xml.sax.handler
 
 from jinja2 import Template, Environment, FileSystemLoader
@@ -189,8 +190,18 @@ def clean_url(url):
         url = url[4:]
     return url.rstrip('/')
 
+def get_site(url):
+    parsed_url = urlparse.urlparse(url)
+    if parsed_url.netloc == '' and parsed_url.scheme == '':
+        parsed_url = urlparse.urlparse("//" + url)
+    site = parsed_url.netloc
+    if site.startswith("www."):
+        site = site[4:]
+    return site
+
 env = Environment(loader=FileSystemLoader(""))
 env.filters['clean_url'] = clean_url
+env.filters['get_site'] = get_site
 
 
 def do_compile(project_name, company_datas=None):
