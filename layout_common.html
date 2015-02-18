@@ -2,7 +2,7 @@
 {% if file_exists("images/logo.png") %} {% set logo_png = true %} {% endif %}
 {% if file_exists("images/icon.png") %} {% set icon_png = true %} {% endif %}
 {% if logo_zip or logo_png or icon_png %} {% set logo = true %} {% endif %}
-{% set images = get_images(['png', 'jpg', 'gif']) %}
+{% set images = get_images(['png', 'jpg', 'gif'], ['logo.png', 'icon.png', 'header.png']) %}
 
 <!DOCTYPE html>
 <html>
@@ -34,6 +34,7 @@
                         {% if common.quotes|length > 0 %}<li><a href="#quotes">Selected Articles</a></li>{% endif %}
                         {% block _navpreview %}{% endblock %}
                         {% if common.additionals|length > 0 %}<li><a href="#links">Additional Links</a></li> {% endif %}
+                        {% block _navabout %}{% endblock %}
                         {% if common.credits|length > 0 %}<li><a href="#credits">Team</a></li>{% endif %}
                         {% if company.contacts|length > 0 %}<li><a href="#contact">Contact</a></li>{% endif %}
 
@@ -58,16 +59,7 @@
 
                             {% block foundingdate_releasedate %}{% endblock %}
 
-                            {% if company.website|length > 0 %}
-                                <p>
-                                    <strong>Website:</strong><br/>
-                                    {% set url = company.website|replace("http://", "") %}
-                                    {% if url|truncate(4, true, "") == "www." %}
-                                        {% set url = url|replace("www.", "", 1) %}
-                                    {% endif %}
-                                    <a href="{{ parse_url(company.website) }}">{{ url }}</a>
-                                </p>
-                            {% endif %}
+                            {% block companysite_gamesite %}{% endblock %}
 
                             {% block press_regularprice %}{% endblock %}
 
@@ -123,19 +115,13 @@
 
                         {% if file_exists("images/images.zip") %}
                             {% set fsize = filesize("images/images.zip") %}
-                            {% if fsize > 1024 and fsize < 1048576 %}
-                                {% set fsize_clean = (fsize / 1024)|round ~ 'KB' %}
-                            {% endif %}
-                            {% if fsize > 1048576 %}
-                                {% set fsize_clean = ((fsize / 1024) / 1024)|round ~ 'MB' %}
-                            {% endif %}
-                            <a href="images/images.zip"><div class="uk-alert">download all screenshots &amp; photos as .zip ({{ fsize_clean }})</div></a>
+                            <a href="images/images.zip"><div class="uk-alert">download all screenshots &amp; photos as .zip ({{ fsize|filesizeformat }})</div></a>
                         {% endif %}
 
 
                         {% if images|length > 0 %}
                             <div class="uk-grid images">
-                                {% for image in images if not image == 'header.png' %}
+                                {% for image in images %}
                                     <div class="uk-width-medium-1-2"><a href="images/{{ image }}"><img src="images/{{ image }}" alt="{{ image }}" /></a></div>
                                 {% endfor %}
                             </div>
@@ -152,13 +138,7 @@
 
                         {% if logo_zip %}
                             {% set fsize = filesize("images/logo.zip") %}
-                            {% if fsize > 1024 and fsize < 1048576 %}
-                                {% set fsize_clean = (fsize / 1024)|round ~ 'KB' %}
-                            {% endif %}
-                            {% if fsize > 1048576 %}
-                                {% set fsize_clean = ((fsize / 1024) / 1024)|round ~ 'MB' %}
-                            {% endif %}
-                            <a href="images/logo.zip"><div class="uk-alert">download logo files as .zip ({{ fsize_clean }})</div></a>
+                            <a href="images/logo.zip"><div class="uk-alert">download logo files as .zip ({{ fsize|filesizeformat }})</div></a>
                         {% endif %}
 
                         <div class="uk-grid images">
@@ -186,8 +166,6 @@
                         <hr>
                     {% endif %}
 
-                    {% block _preview %}{% endblock %}
-
                     {% if common.quotes|length > 0 %}
                         <h2 id="quotes">Selected Articles</h2>
                         <ul>
@@ -199,18 +177,22 @@
                         <hr>
                     {% endif %}
 
+                    {% block _preview %}{% endblock %}
+
                     <!-- {% block additionals %}{% endblock %} -->
                     {% if common.additionals|length > 0 %}
                         <h2 id="links">Additional Links</h2>
                         {% for additional in common.additionals.additional %}
                             <p>
                                 <strong>{{ additional.title }}</strong><br/>
-                                {{ additional.description }} <a href="//{{ additional.link }}" alt={{ additional.link }}>{{ additional.link }}</a>.
+                                {{ additional.description }} <a href="{{ parse_url(additional.link) }}" alt={{ additional.link }}>{{ additional.link|get_site }}</a>.
                             </p>
                         {% endfor %}
 
                         <hr>
                     {% endif %}
+
+                    {% block _about %}{% endblock %}
 
                     {% if common.credits|length > 0 or company.contacts|length > 0 %}
                         <div class="uk-grid">
@@ -223,6 +205,8 @@
                                         <strong>{{ credit.person }} </strong><br/>
                                         {% if "website" in credit and credit.website|length != 0 %}
                                             <a href="{{ parse_url(credit.website) }}">{{ credit.role }}</a>
+                                        {% else %}
+                                            {{ credit.role }}
                                         {% endif %}
                                         </p>
                                     {% endfor %}
@@ -242,7 +226,7 @@
                                         {% endif %}
 
                                         {% if not "mail" in contact and contact.link|length > 0 %}
-                                            <strong>{{ contact.name }}</strong><br/><a href="{{ parse_url(contact.link) }}">{{ contact.link }}</a>
+                                            <strong>{{ contact.name }}</strong><br/><a href="{{ parse_url(contact.link) }}">{{ contact.link|clean_url }}</a>
                                         {% endif %}
                                         </p>
                                     {% endfor %}

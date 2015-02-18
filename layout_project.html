@@ -16,6 +16,9 @@
 {% block _navpreview %}
     {% if company.press_can_request_copy == 'TRUE' %}<li><a href="#preview">Request Press Copy</a></li>{% endif %}
 {% endblock %}
+{% block _navabout %}
+    <li><a href="#about">About {{ company.title }}</a></li>
+{% endblock %}
 
 {% block header %}
     <a class="nav-header" href="../index.html">press kit</a>
@@ -39,6 +42,16 @@
     {% endif %}
 
 
+{% endblock %}
+
+{% block companysite_gamesite %}
+    {% if project.website|length > 0 %}
+        <p>
+            <strong>Website:</strong><br/>
+            {% set url = project.website|clean_url %}
+            <a href="{{ parse_url(project.website) }}">{{ url }}</a>
+        </p>
+    {% endif %}
 {% endblock %}
 
 {% block press_regularprice %}
@@ -78,6 +91,18 @@
         <p>Please send us an e-mail at <a href="mailto:{{ company.press_contact }}">{{ company.press_contact }}</a> and we'll get back to you as soon as a press copy is available for you.</p>
         <hr>
     {% endif %}
+{% endblock %}
+
+{% block _about %}
+    <h2 id="about">About {{ company.title }}</h2>
+        <p><strong>Boilerplate</strong><br/>
+        {{ company.description }}
+        </p>
+
+        <p><strong>More information</strong><br/>
+        More information on {{ company.title }}, our logo & relevant media are available <a href="../index.html">here</a>.
+        </p>
+    <hr>
 {% endblock %}
 
 {% block credit_name %}{{ project.title}} Credits{% endblock %}

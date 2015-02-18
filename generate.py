@@ -1,6 +1,7 @@
 import re
 import os.path
 import sys
+import urlparse
 import xml.sax.handler
 
 from jinja2 import Template, Environment, FileSystemLoader
@@ -133,16 +134,18 @@ blabla_ga()
 
 
 # HELPERS
-def get_images(extensions):
+def get_images(extensions, rejects=None):
+    rejects = rejects or []
     files, images_path  = [], os.path.join(now_project, "images")
     try:
         os.mkdir(images_path)
     except OSError:  # Images folder already exists
         pass
     for f in os.listdir(images_path):
-        for ext in extensions:
-            if f.endswith(ext):
-                files.append(f)
+        _, ext = os.path.splitext(f)
+        ext = ext[1:]
+        if ext in extensions and f not in rejects:
+            files.append(f)
 
     return files
 
@@ -176,11 +179,31 @@ def filesize(filepath):
 
 
 def parse_url(url):
-    if url[:7] != "http://":
+    if url[:7] != "http://" and url[:8] != "https://":
         url = "http://" + url
     return url
 
+def clean_url(url):
+    if url.startswith("http://"):
+        url = url[7:]
+    if url.startswith("https://"):
+        url = url[8:]
+    if url.startswith("www."):
+        url = url[4:]
+    return url.rstrip('/')
+
+def get_site(url):
+    parsed_url = urlparse.urlparse(url)
+    if parsed_url.netloc == '' and parsed_url.scheme == '':
+        parsed_url = urlparse.urlparse("//" + url)
+    site = parsed_url.netloc
+    if site.startswith("www."):
+        site = site[4:]
+    return site
+
 env = Environment(loader=FileSystemLoader(""))
+env.filters['clean_url'] = clean_url
+env.filters['get_site'] = get_site
 
 
 def do_compile(project_name, company_datas=None):
