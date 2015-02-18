@@ -2,7 +2,7 @@
 {% if file_exists("images/logo.png") %} {% set logo_png = true %} {% endif %}
 {% if file_exists("images/icon.png") %} {% set icon_png = true %} {% endif %}
 {% if logo_zip or logo_png or icon_png %} {% set logo = true %} {% endif %}
-{% set images = get_images(['png', 'jpg', 'gif']) %}
+{% set images = get_images(['png', 'jpg', 'gif'], ['logo.png', 'icon.png', 'header.png']) %}
 
 <!DOCTYPE html>
 <html>
@@ -126,7 +126,7 @@
 
                         {% if images|length > 0 %}
                             <div class="uk-grid images">
-                                {% for image in images if not image == 'header.png' %}
+                                {% for image in images %}
                                     <div class="uk-width-medium-1-2"><a href="images/{{ image }}"><img src="images/{{ image }}" alt="{{ image }}" /></a></div>
                                 {% endfor %}
                             </div>

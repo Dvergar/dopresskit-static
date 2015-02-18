@@ -134,16 +134,18 @@ blabla_ga()
 
 
 # HELPERS
-def get_images(extensions):
+def get_images(extensions, rejects=None):
+    rejects = rejects or []
     files, images_path  = [], os.path.join(now_project, "images")
     try:
         os.mkdir(images_path)
     except OSError:  # Images folder already exists
         pass
     for f in os.listdir(images_path):
-        for ext in extensions:
-            if f.endswith(ext):
-                files.append(f)
+        _, ext = os.path.splitext(f)
+        ext = ext[1:]
+        if ext in extensions and f not in rejects:
+            files.append(f)
 
     return files
 
