@@ -34,6 +34,7 @@
                         {% if common.quotes|length > 0 %}<li><a href="#quotes">Selected Articles</a></li>{% endif %}
                         {% block _navpreview %}{% endblock %}
                         {% if common.additionals|length > 0 %}<li><a href="#links">Additional Links</a></li> {% endif %}
+                        {% block _navabout %}{% endblock %}
                         {% if common.credits|length > 0 %}<li><a href="#credits">Team</a></li>{% endif %}
                         {% if company.contacts|length > 0 %}<li><a href="#contact">Contact</a></li>{% endif %}
 
@@ -190,6 +191,8 @@
 
                         <hr>
                     {% endif %}
+
+                    {% block _about %}{% endblock %}
 
                     {% if common.credits|length > 0 or company.contacts|length > 0 %}
                         <div class="uk-grid">
