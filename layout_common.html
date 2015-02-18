@@ -166,8 +166,6 @@
                         <hr>
                     {% endif %}
 
-                    {% block _preview %}{% endblock %}
-
                     {% if common.quotes|length > 0 %}
                         <h2 id="quotes">Selected Articles</h2>
                         <ul>
@@ -178,6 +176,8 @@
                         </ul>
                         <hr>
                     {% endif %}
+
+                    {% block _preview %}{% endblock %}
 
                     <!-- {% block additionals %}{% endblock %} -->
                     {% if common.additionals|length > 0 %}
