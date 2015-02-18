@@ -61,10 +61,7 @@
                             {% if company.website|length > 0 %}
                                 <p>
                                     <strong>Website:</strong><br/>
-                                    {% set url = company.website|replace("http://", "") %}
-                                    {% if url|truncate(4, true, "") == "www." %}
-                                        {% set url = url|replace("www.", "", 1) %}
-                                    {% endif %}
+                                    {% set url = company.website|clean_url %}
                                     <a href="{{ parse_url(company.website) }}">{{ url }}</a>
                                 </p>
                             {% endif %}
@@ -205,7 +202,7 @@
                         {% for additional in common.additionals.additional %}
                             <p>
                                 <strong>{{ additional.title }}</strong><br/>
-                                {{ additional.description }} <a href="//{{ additional.link }}" alt={{ additional.link }}>{{ additional.link }}</a>.
+                                {{ additional.description }} <a href="{{ parse_url(additional.link) }}" alt={{ additional.link }}>{{ additional.link }}</a>.
                             </p>
                         {% endfor %}
 
@@ -242,7 +239,7 @@
                                         {% endif %}
 
                                         {% if not "mail" in contact and contact.link|length > 0 %}
-                                            <strong>{{ contact.name }}</strong><br/><a href="{{ parse_url(contact.link) }}">{{ contact.link }}</a>
+                                            <strong>{{ contact.name }}</strong><br/><a href="{{ parse_url(contact.link) }}">{{ contact.link|clean_url }}</a>
                                         {% endif %}
                                         </p>
                                     {% endfor %}

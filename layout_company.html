@@ -15,10 +15,7 @@
 {% block images_screenshots %}<li><a href="#images">Images</a></li>{% endblock %}
 
 {% block header %}
-    {% set url = company.website|replace("http://", "") %}
-    {% if url|truncate(4, true, "") == "www." %}
-        {% set url = url|replace("www.", "", 1) %}
-    {% endif %}
+    {% set url = company.website|clean_url %}
     <a class="nav-header" href={{ company.website }}>{{ url }}</a>
 {% endblock %}
 

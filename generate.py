@@ -176,11 +176,21 @@ def filesize(filepath):
 
 
 def parse_url(url):
-    if url[:7] != "http://":
+    if url[:7] != "http://" and url[:8] != "https://":
         url = "http://" + url
     return url
 
+def clean_url(url):
+    if url.startswith("http://"):
+        url = url[7:]
+    if url.startswith("https://"):
+        url = url[8:]
+    if url.startswith("www."):
+        url = url[4:]
+    return url.rstrip('/')
+
 env = Environment(loader=FileSystemLoader(""))
+env.filters['clean_url'] = clean_url
 
 
 def do_compile(project_name, company_datas=None):
