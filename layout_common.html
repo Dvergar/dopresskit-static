@@ -58,13 +58,7 @@
 
                             {% block foundingdate_releasedate %}{% endblock %}
 
-                            {% if company.website|length > 0 %}
-                                <p>
-                                    <strong>Website:</strong><br/>
-                                    {% set url = company.website|clean_url %}
-                                    <a href="{{ parse_url(company.website) }}">{{ url }}</a>
-                                </p>
-                            {% endif %}
+                            {% block companysite_gamesite %}{% endblock %}
 
                             {% block press_regularprice %}{% endblock %}
 

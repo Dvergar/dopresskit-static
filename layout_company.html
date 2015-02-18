@@ -28,6 +28,16 @@
     {% endif %}
 {% endblock %}
 
+{% block companysite_gamesite %}
+    {% if company.website|length > 0 %}
+        <p>
+            <strong>Website:</strong><br/>
+            {% set url = company.website|clean_url %}
+            <a href="{{ parse_url(company.website) }}">{{ url }}</a>
+        </p>
+    {% endif %}
+{% endblock %}
+
 {% block press_regularprice %}
     {% if company.press_contact|length > 0 %}
         <p>

@@ -41,6 +41,16 @@
 
 {% endblock %}
 
+{% block companysite_gamesite %}
+    {% if project.website|length > 0 %}
+        <p>
+            <strong>Website:</strong><br/>
+            {% set url = project.website|clean_url %}
+            <a href="{{ parse_url(project.website) }}">{{ url }}</a>
+        </p>
+    {% endif %}
+{% endblock %}
+
 {% block press_regularprice %}
     {% if project.prices|length > 0 %}
         <p>
