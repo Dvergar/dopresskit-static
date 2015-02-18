@@ -208,6 +208,8 @@
                                         <strong>{{ credit.person }} </strong><br/>
                                         {% if "website" in credit and credit.website|length != 0 %}
                                             <a href="{{ parse_url(credit.website) }}">{{ credit.role }}</a>
+                                        {% else %}
+                                            {{ credit.role }}
                                         {% endif %}
                                         </p>
                                     {% endfor %}
